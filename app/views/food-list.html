@@ -192,14 +192,54 @@
       </ul>
     </footer> -->
 
-    <!-- Modal Food -->
+    <!-- Modal confirm Delete -->
+    <div
+      class="modal fade"
+      id="modalConfirmDeleteFood"
+      tabindex="-1"
+      role="dialog"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="">Bạn có chắc muốn xóa món này?</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table id="modalDeleteFoodTable" class="table"></table>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+              id="foodDeleteModalCloseBtn"
+            >
+              Close
+            </button>
+            <button id="btnDeleteFood" type="button" class="btn btn-danger">
+              Xóa
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Add & Update Food -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Thêm Món Ăn</h5>
+            <h5 id="modalTitleAddAndUpdate" class="modal-title">Thêm Món Ăn</h5>
             <button
-              id="modalClose"
+              id="foodModalCloseBtn"
               type="button"
               class="close"
               data-dismiss="modal"

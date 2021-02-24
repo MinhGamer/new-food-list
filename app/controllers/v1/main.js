@@ -15,21 +15,28 @@ const handleDeleteFood = (id) => {
   foodList._deleteFood(id);
   renderFoodList();
   saveLocalStorage();
+  closeFoodDeleteModal();
 };
 
 const handleFilterFood = (e) => {
-  //   console.log('filter', e.target.value);
+  let filterFoodList = [];
+  if (e.target.value === 'all') {
+    filterFoodList = foodList.arr;
+  } else {
+    filterFoodList = foodList.arr.filter(
+      (food) => food.type === e.target.value
+    );
+  }
 
-  if (e.target.value === 'all') return;
-
-  const filterFoodList = foodList.arr.filter(
-    (food) => food.type === e.target.value
-  );
   renderFoodList(filterFoodList);
 };
 
 const closeFoodModal = () => {
-  document.getElementById('modalClose').click();
+  document.getElementById('foodModalCloseBtn').click();
+};
+
+const closeFoodDeleteModal = () => {
+  document.getElementById('foodDeleteModalCloseBtn').click();
 };
 
 const resetFoodForm = () => {
@@ -48,7 +55,8 @@ const handleUpdateFood = () => {
 const btnOpenFormToUpdateFood = (id) => {
   document.getElementById('btnUpdateFood').style.display = 'block';
   document.getElementById('btnAddFood').style.display = 'none';
-  document.querySelector('.modal-title').innerHTML = 'Cập nhật Món Ăn';
+  document.getElementById('modalTitleAddAndUpdate').innerHTML =
+    'Cập nhật Món Ăn';
   bindingDataToFrom(foodList._getFood(id));
 };
 
@@ -81,9 +89,9 @@ const renderFoodList = (foods = foodList.arr) => {
        <td>${food.priceAfterPromotion}</td>
         <td>${food.status === 'available' ? 'Còn' : 'Hết'}</td>
        <td>
-        <button onclick="handleDeleteFood('${
+        <button onclick="renderDeleteFood('${
           food.id
-        }')" class="btn btn-danger">Xóa</button>
+        }')" data-toggle="modal" data-target="#modalConfirmDeleteFood" class="btn btn-danger">Xóa</button>
 
         <button onclick="btnOpenFormToUpdateFood('${
           food.id
@@ -97,6 +105,53 @@ const renderFoodList = (foods = foodList.arr) => {
 
   tbodyFood.innerHTML = foodListHTML;
 };
+
+const renderDeleteFood = (id) => {
+  const modalDeleteFoodTable = document.getElementById('modalDeleteFoodTable');
+  const food = foodList.arr.find((food) => food.id === id);
+
+  if (!food) return;
+  const deletedFoodHTML = `
+        <tr>
+            <th>Hình ảnh</th>
+            <td><img src="../../assets/img/${food.photo}" alt="${
+    food.name
+  }" /></td>
+        </tr>
+         <tr>
+            <th>Tên</th>
+            <td>${food.name}</td>
+        </tr>
+        <tr>
+            <th>Loại</th>
+            <td>${food.type === 'vegetarian' ? 'Chay' : 'Mặn'}</td>
+        </tr>
+         <tr>
+            <th>Giá</th>
+            <td>${food.originalPrice}</td>
+        </tr>
+         <tr>
+            <th>Khuyến mãi</th>
+            <td>${food.promotion}</td>
+        </tr>
+         <tr>
+            <th>Giá KM</th>
+            <td>${food.priceAfterPromotion}</td>
+        </tr>
+         <tr>
+            <th>Tình trạng</th>
+            <td>${food.status === 'available' ? 'Còn' : 'Hết'}</td>
+        </tr>
+    
+  `;
+  modalDeleteFoodTable.innerHTML = deletedFoodHTML;
+
+  document
+    .getElementById('btnDeleteFood')
+    .addEventListener('click', () => handleDeleteFood(id));
+};
+
+window.renderDeleteFood = renderDeleteFood;
 
 const saveLocalStorage = () => {
   localStorage.setItem('foodList', JSON.stringify(foodList.arr));
