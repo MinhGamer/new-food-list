@@ -17,6 +17,17 @@ const handleDeleteFood = (id) => {
   saveLocalStorage();
 };
 
+const handleFilterFood = (e) => {
+  //   console.log('filter', e.target.value);
+
+  if (e.target.value === 'all') return;
+
+  const filterFoodList = foodList.arr.filter(
+    (food) => food.type === e.target.value
+  );
+  renderFoodList(filterFoodList);
+};
+
 const closeFoodModal = () => {
   document.getElementById('modalClose').click();
 };
@@ -41,23 +52,30 @@ const btnOpenFormToUpdateFood = (id) => {
   bindingDataToFrom(foodList._getFood(id));
 };
 
+const btnOpenFormToAddFood = () => {
+  resetFoodForm();
+  document.getElementById('btnUpdateFood').style.display = 'none';
+  document.getElementById('btnAddFood').style.display = 'block';
+  document.querySelector('.modal-title').innerHTML = 'Thêm Món Ăn';
+};
+
 window.handleUpdateFood = handleUpdateFood;
 
 window.handleDeleteFood = handleDeleteFood;
 
 window.btnOpenFormToUpdateFood = btnOpenFormToUpdateFood;
 
-const renderFoodList = () => {
+const renderFoodList = (foods = foodList.arr) => {
   const tbodyFood = document.getElementById('tbodyFood');
 
   let foodListHTML = '';
 
-  foodList.arr.forEach((food) => {
+  foods.forEach((food) => {
     foodListHTML += `
     <tr>
        <td>${food.id}</td>
        <td>${food.name}</td>
-       <td>${food.type === 'vegeterian' ? 'Chay' : 'Mặn'}</td>
+       <td>${food.type === 'vegetarian' ? 'Chay' : 'Mặn'}</td>
        <td>${food.originalPrice}</td>
        <td>${food.promotion} %</td>
        <td>${food.priceAfterPromotion}</td>
@@ -141,11 +159,9 @@ document
 
 document
   .getElementById('btnOpenFormToAddFood')
-  .addEventListener('click', () => {
-    document.getElementById('btnUpdateFood').style.display = 'none';
-    document.getElementById('btnAddFood').style.display = 'block';
-    document.querySelector('.modal-title').innerHTML = 'Thêm Món Ăn';
-  });
+  .addEventListener('click', btnOpenFormToAddFood);
+
+document.getElementById('selLoai').addEventListener('change', handleFilterFood);
 
 //-------call function below this line----------------
 

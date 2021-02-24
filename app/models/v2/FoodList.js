@@ -24,10 +24,15 @@ class FoodList {
   }
 
   _updateFood(food) {
-    const foodIndex = this.arr.findIndex((_food) => _food.id === _food.id);
+    const foodIndex = this.arr.findIndex((_food) => _food.id === food.id);
 
     if (foodIndex === -1) return;
 
+    if (!food.photo) {
+      food.photo = this.arr[foodIndex].photo;
+    }
+
+    console.log(food);
     this.arr[foodIndex] = food;
   }
 }
