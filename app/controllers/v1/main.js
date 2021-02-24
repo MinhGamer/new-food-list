@@ -13,6 +13,14 @@ const handleAddFood = () => {
   document.getElementById('foodForm').reset();
 };
 
+const handleDeleteFood = (id) => {
+  foodList._deleteFood(id);
+  renderFoodList();
+  saveLocalStorage();
+};
+
+window.handleDeleteFood = handleDeleteFood;
+
 const renderFoodList = () => {
   const tbodyFood = document.getElementById('tbodyFood');
 
@@ -29,7 +37,9 @@ const renderFoodList = () => {
        <td>${food.priceAfterPromotion}</td>
         <td>${food.status === 'available' ? 'Còn' : 'Hết'}</td>
        <td>
-        <button class="btn btn-danger">Xóa</button>
+        <button onclick="handleDeleteFood('${
+          food.id
+        }')" class="btn btn-danger">Xóa</button>
         <button class="btn btn-info">Cập nhật</button>
         </td>
      </tr>
@@ -91,6 +101,7 @@ document
     document.getElementById('btnUpdateFood').style.display = 'none';
     document.querySelector('.modal-title').innerHTML = 'Thêm Món Ăn';
   });
+
 //-------call function below this line----------------
 
 getLocalStorage();
