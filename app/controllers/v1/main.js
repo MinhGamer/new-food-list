@@ -6,16 +6,45 @@ const foodList = new FoodList();
 const addFood = () => {
   const newfood = getDataFromForm();
   foodList._addFood(newfood);
-  console.log(foodList.arr);
+  renderFoodListTable();
+  saveLocalStorage();
+};
+
+const renderFoodListTable = () => {
+  const tbodyFood = document.getElementById('tbodyFood');
+
+  let foodListHTML = '';
+
+  foodList.arr.forEach((food) => {
+    foodListHTML += `
+    <tr>
+       <td>${food.id}</td>
+       <td>${food.name}</td>
+       <td>${food.type === 'vegeterian' ? 'Chay' : 'Mặn'}</td>
+       <td>${food.originalPrice}</td>
+       <td>${food.promotion} %</td>
+       <td>${food.priceAfterPromotion}</td>
+        <td>${food.status === 'available' ? 'Còn' : 'Hết'}</td>
+     </tr>
+    `;
+  });
+
+  tbodyFood.innerHTML = foodListHTML;
 };
 
 const updateFood = () => {
   console.log('update food');
 };
 
-document.getElementById('btnAddFood').addEventListener('click', addFood);
+const saveLocalStorage = () => {
+  localStorage.setItem('foodList', JSON.stringify(foodList.arr));
+};
 
-document.getElementById('btnUpdateFood').addEventListener('click', updateFood);
+const getLocalStorage = () => {
+  foodList.arr = JSON.parse(localStorage.getItem('foodList') || []);
+
+  renderFoodListTable();
+};
 
 const getDataFromForm = () => {
   const id = document.getElementById('foodID').value;
@@ -42,3 +71,11 @@ const getDataFromForm = () => {
 
   return newFood;
 };
+
+document.getElementById('btnAddFood').addEventListener('click', addFood);
+
+document.getElementById('btnUpdateFood').addEventListener('click', updateFood);
+
+//-------call function below this line----------------
+
+getLocalStorage();
