@@ -8,9 +8,7 @@ const handleAddFood = () => {
   foodList._addFood(newfood);
   renderFoodList();
   saveLocalStorage();
-
-  document.getElementById('modalClose').click();
-  document.getElementById('foodForm').reset();
+  closeFoodModal();
 };
 
 const handleDeleteFood = (id) => {
@@ -19,7 +17,35 @@ const handleDeleteFood = (id) => {
   saveLocalStorage();
 };
 
+const closeFoodModal = () => {
+  document.getElementById('modalClose').click();
+};
+
+const resetFoodForm = () => {
+  document.getElementById('foodForm').reset();
+};
+
+const handleUpdateFood = () => {
+  const food = getDataFromForm();
+  foodList._updateFood(food);
+  renderFoodList();
+  closeFoodModal();
+  saveLocalStorage();
+  resetFoodForm();
+};
+
+const btnOpenFormToUpdateFood = (id) => {
+  document.getElementById('btnUpdateFood').style.display = 'block';
+  document.getElementById('btnAddFood').style.display = 'none';
+  document.querySelector('.modal-title').innerHTML = 'Cập nhật Món Ăn';
+  bindingDataToFrom(foodList._getFood(id));
+};
+
+window.handleUpdateFood = handleUpdateFood;
+
 window.handleDeleteFood = handleDeleteFood;
+
+window.btnOpenFormToUpdateFood = btnOpenFormToUpdateFood;
 
 const renderFoodList = () => {
   const tbodyFood = document.getElementById('tbodyFood');
@@ -40,17 +66,18 @@ const renderFoodList = () => {
         <button onclick="handleDeleteFood('${
           food.id
         }')" class="btn btn-danger">Xóa</button>
-        <button class="btn btn-info">Cập nhật</button>
+
+        <button onclick="btnOpenFormToUpdateFood('${
+          food.id
+        }')"  data-toggle="modal"
+        data-target="#exampleModal" class="btn btn-info">Cập nhật</button>
+
         </td>
      </tr>
     `;
   });
 
   tbodyFood.innerHTML = foodListHTML;
-};
-
-const handleUpdateFood = () => {
-  console.log('update food');
 };
 
 const saveLocalStorage = () => {
@@ -70,7 +97,12 @@ const getDataFromForm = () => {
   const price = document.getElementById('giaMon').value;
   const promotion = document.getElementById('khuyenMai').value;
   const status = document.getElementById('tinhTrang').value;
-  const photo = document.getElementById('hinhMon').files[0].name;
+
+  let photo = '';
+  if (document.getElementById('hinhMon').files.length > 0) {
+    photo = document.getElementById('hinhMon').files[0].name;
+  }
+
   const desc = document.getElementById('moTa').value;
 
   const newFood = new Food(
@@ -89,6 +121,18 @@ const getDataFromForm = () => {
   return newFood;
 };
 
+const bindingDataToFrom = (food) => {
+  document.getElementById('foodID').disabled = 'true';
+  document.getElementById('foodID').value = food.id;
+  document.getElementById('tenMon').value = food.name;
+  document.getElementById('loai').value = food.type;
+  document.getElementById('giaMon').value = food.originalPrice;
+  document.getElementById('khuyenMai').value = food.promotion;
+  document.getElementById('tinhTrang').value = food.status;
+  //   document.getElementById('hinhMon').files[0].name;
+  document.getElementById('moTa').value = food.desc;
+};
+
 document.getElementById('btnAddFood').addEventListener('click', handleAddFood);
 
 document
@@ -96,9 +140,10 @@ document
   .addEventListener('click', handleUpdateFood);
 
 document
-  .getElementById('btnOpenFormToAddFodd')
+  .getElementById('btnOpenFormToAddFood')
   .addEventListener('click', () => {
     document.getElementById('btnUpdateFood').style.display = 'none';
+    document.getElementById('btnAddFood').style.display = 'block';
     document.querySelector('.modal-title').innerHTML = 'Thêm Món Ăn';
   });
 
