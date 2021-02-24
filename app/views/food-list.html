@@ -227,8 +227,8 @@
                     required
                   >
                     <option value="">Chọn loại</option>
-                    <option value="loai1">Chay</option>
-                    <option value="loai2">Mặn</option>
+                    <option value="vegetarian">Chay</option>
+                    <option value="normal">Mặn</option>
                   </select>
                   <div id="invalidLoai" class="invalid-feedback"></div>
                 </div>
@@ -265,8 +265,8 @@
                     required
                   >
                     <option value="">Chọn tình trạng</option>
-                    <option value="0">Hết</option>
-                    <option value="1">Còn</option>
+                    <option value="outOfStock">Hết</option>
+                    <option value="available">Còn</option>
                   </select>
                   <div id="invalidTT" class="invalid-feedback"></div>
                 </div>
@@ -293,8 +293,11 @@
             >
               Close
             </button>
-            <button type="button" class="btn btn-warning" id="btnThemMon">
+            <button type="button" class="btn btn-warning" id="btnAddFood">
               Thêm
+            </button>
+            <button type="button" class="btn btn-info" id="btnUpdateFood">
+              Cập nhật
             </button>
           </div>
         </div>
@@ -306,5 +309,6 @@
     <!-- <script src="../../assets/lib/js/feather/feather.min.js"></script> -->
     <!-- <script src="../../assets/lib/js/chart/Chart.min.js"></script> -->
     <!-- <script src="../../assets/js/dashboard.js"></script> -->
+    <script type="module" src="../controllers/v1/main.js"></script>
   </body>
 </html>
