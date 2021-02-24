@@ -133,7 +133,7 @@
           <div class="row">
             <div class="col-8">
               <button
-                id="btnThem"
+                id="btnOpenFormToAddFodd"
                 type="button"
                 class="btn btn-warning mb-3 text-white"
                 data-toggle="modal"
@@ -146,7 +146,7 @@
 
           <!-- food list table -->
           <div class="table-responsive foodTable">
-            <table class="table table-striped table-sm">
+            <table class="table table-striped table-sm text-center">
               <thead>
                 <tr class="bg-warning text-white">
                   <th>ID</th>
@@ -156,6 +156,7 @@
                   <th>Khuyến Mãi</th>
                   <th>Giá KM</th>
                   <th>Tình Trạng</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody id="tbodyFood"></tbody>
@@ -176,18 +177,13 @@
     </footer>
 
     <!-- Modal Food -->
-    <div
-      class="modal fade"
-      id="exampleModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Thêm Món Ăn</h5>
+            <h5 class="modal-title">Thêm Món Ăn</h5>
             <button
+              id="modalClose"
               type="button"
               class="close"
               data-dismiss="modal"

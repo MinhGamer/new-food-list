@@ -3,14 +3,17 @@ import FoodList from '../../models/v2/FoodList.js';
 
 const foodList = new FoodList();
 
-const addFood = () => {
+const handleAddFood = () => {
   const newfood = getDataFromForm();
   foodList._addFood(newfood);
-  renderFoodListTable();
+  renderFoodList();
   saveLocalStorage();
+
+  document.getElementById('modalClose').click();
+  document.getElementById('foodForm').reset();
 };
 
-const renderFoodListTable = () => {
+const renderFoodList = () => {
   const tbodyFood = document.getElementById('tbodyFood');
 
   let foodListHTML = '';
@@ -25,6 +28,10 @@ const renderFoodListTable = () => {
        <td>${food.promotion} %</td>
        <td>${food.priceAfterPromotion}</td>
         <td>${food.status === 'available' ? 'Còn' : 'Hết'}</td>
+       <td>
+        <button class="btn btn-danger">Xóa</button>
+        <button class="btn btn-info">Cập nhật</button>
+        </td>
      </tr>
     `;
   });
@@ -32,7 +39,7 @@ const renderFoodListTable = () => {
   tbodyFood.innerHTML = foodListHTML;
 };
 
-const updateFood = () => {
+const handleUpdateFood = () => {
   console.log('update food');
 };
 
@@ -43,7 +50,7 @@ const saveLocalStorage = () => {
 const getLocalStorage = () => {
   foodList.arr = JSON.parse(localStorage.getItem('foodList') || []);
 
-  renderFoodListTable();
+  renderFoodList();
 };
 
 const getDataFromForm = () => {
@@ -72,10 +79,18 @@ const getDataFromForm = () => {
   return newFood;
 };
 
-document.getElementById('btnAddFood').addEventListener('click', addFood);
+document.getElementById('btnAddFood').addEventListener('click', handleAddFood);
 
-document.getElementById('btnUpdateFood').addEventListener('click', updateFood);
+document
+  .getElementById('btnUpdateFood')
+  .addEventListener('click', handleUpdateFood);
 
+document
+  .getElementById('btnOpenFormToAddFodd')
+  .addEventListener('click', () => {
+    document.getElementById('btnUpdateFood').style.display = 'none';
+    document.querySelector('.modal-title').innerHTML = 'Thêm Món Ăn';
+  });
 //-------call function below this line----------------
 
 getLocalStorage();
