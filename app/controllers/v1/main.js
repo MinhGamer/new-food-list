@@ -18,13 +18,18 @@ const handleDeleteFood = (id) => {
   closeFoodDeleteModal();
 };
 
-const handleFilterFood = (e) => {
+const handleFilterFood = (event) => {
+  if (!event.target.value) {
+    renderFoodList();
+    return;
+  }
+
   let filterFoodList = [];
-  if (e.target.value === 'all') {
+  if (event.target.value === 'all') {
     filterFoodList = foodList.arr;
   } else {
     filterFoodList = foodList.arr.filter(
-      (food) => food.type === e.target.value
+      (food) => food.type === event.target.value
     );
   }
 
@@ -158,7 +163,7 @@ const saveLocalStorage = () => {
 };
 
 const getLocalStorage = () => {
-  foodList.arr = JSON.parse(localStorage.getItem('foodList') || []);
+  foodList.arr = JSON.parse(localStorage.getItem('foodList')) || [];
 
   renderFoodList();
 };
